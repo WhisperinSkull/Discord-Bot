@@ -17,7 +17,6 @@ module.exports = {
             const member = await interaction.guild.members.fetch(user.id);
             const displayName = member.displayName;
             const userId = user.id;
-            const requesterId = interaction.user.id; // ID of the user who requested the command
 
             // Load quotes from quotes.json
             const quotesFilePath = path.join(__dirname, '../../quotes.json');
@@ -68,10 +67,24 @@ module.exports = {
                 pageQuotes.forEach(quoteObj => {
                     const quoteDate = new Date(quoteObj.date);
                     const formattedDate = quoteDate.toLocaleDateString('en-US');
-                    const quoteText = quoteObj.text;
+                    let quoteText = quoteObj.text;
+
+                    // Check if the quote has multiple participants
+                    if (quoteObj.participants && quoteObj.participants.length > 1) {
+                        // Fetch participants' names
+                        const participantNames = quoteObj.participants.map(id => {
+                            const member = interaction.guild.members.cache.get(id);
+                            return member ? member.displayName : 'Unknown User';
+                        });
+
+                        // Display both parts of the fullQuote
+                        quoteText = quoteObj.fullQuote.split('|').map((quote, index) => {
+                            return `"${quote.trim()}" - ${participantNames[index] || 'Unknown User'}`;
+                        }).join(' ');
+                    }
 
                     embed.addFields({
-                        name: `"${quoteText}"`,
+                        name: `${quoteText}`,
                         value: `*${formattedDate}*`,
                         inline: false
                     });

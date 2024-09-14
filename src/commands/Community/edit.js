@@ -7,6 +7,10 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('edit')
         .setDescription('Edit an existing quote.')
+        .addUserOption(option =>
+            option.setName('user')
+                .setDescription('The user whose quote you want to edit')
+                .setRequired(true))
         .addStringOption(option =>
             option.setName('oldquote')
                 .setDescription('The old quote text to edit')
@@ -16,9 +20,10 @@ module.exports = {
                 .setDescription('The new quote text')
                 .setRequired(true)),
     async execute(interaction) {
+        const user = interaction.options.getUser('user'); // Get the user
         const oldQuoteText = interaction.options.getString('oldquote');
         const newQuoteText = interaction.options.getString('newquote');
-        const userId = interaction.user.id;
+        const userId = user.id; // Use the selected user's ID
 
         // Load quotes.json file
         const quotesFilePath = path.join(__dirname, '../../quotes.json');
@@ -33,7 +38,7 @@ module.exports = {
         const quoteIndex = userQuotes.findIndex(q => q.text === oldQuoteText);
 
         if (quoteIndex === -1) {
-            return interaction.reply({ content: 'Quote not found.', ephemeral: true });
+            return interaction.reply({ content: `Quote not found for user ${user.username}.`, ephemeral: true });
         }
 
         // Update the quote
