@@ -8,30 +8,51 @@
 </head>
 
 <body>
+  
+    <div class="card">
+        <div class="header">
+            <div class="id-card">ID CARD</div>
+            <div class="join-date">JOIN DATE: 01/01/2022</div>
+        </div>
 
-    <body>
-        <h1>User Quotes</h1>
-        <div id="quotes"></div>
-        <script>
-            fetch('https://raw.githubusercontent.com/your-username/your-repo/main/path/to/user_data.json')
-                .then(response => response.json())
-                .then(data => {
-                    const quotesDiv = document.getElementById('quotes');
-                    for (const userId in data) {
-                        const userData = data[userId];
-                        const userElement = document.createElement('div');
-                        userElement.classList.add('user');
-                        userElement.innerHTML = `
-                            <h2>${userId}</h2>
-                            <p>Total Quotes: ${userData.totalQuotes}</p>
-                            <p>Longest Quote: ${userData.longestQuote}</p>
-                            <p>Quote Words: ${userData.quoteWords}</p>
-                        `;
-                        quotesDiv.appendChild(userElement);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        </script> 
+        <div class="username-section">
+            <div class="username">USERNAME</div>
+            <div class="user-id">User ID: #123456</div>
+        </div>
+
+        <div class="content">
+            <div class="left-column">
+                <div class="stat-item">
+                    <span class="label">FIRST QUOTE DATE</span>
+                    <span class="value">01/15/2022</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">RECENT QUOTE</span>
+                    <span class="value">"Quote goes here"</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">LONGEST QUOTE</span>
+                    <span class="value">"Longest quote goes here"</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">SHORTEST QUOTE</span>
+                    <span class="value">"Shortest quote goes here"</span>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="profile-pic"></div> <!-- Profile Picture Placeholder -->
+                <div class="stat-item">
+                    <span class="label">TOTAL QUOTES</span>
+                    <span class="value">45</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">QUOTE FREQUENCY</span>
+                    <span class="value">2 Days/Quote</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
