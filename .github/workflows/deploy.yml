@@ -1,27 +1,28 @@
-name: Deploy Node.js App
+name: Deploy Bot
 
 on:
   push:
     branches:
-      - main  # Replace with your default branch if different
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'  # Specify your Node.js version (change if needed)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Use Node.js 20
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run application
-      run: npm start
-      env:
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}  # This line ensures the token is available to your bot
+      - name: Run application
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          npm start
